@@ -70,7 +70,7 @@ def balance_teams():
     warriors_players_inexperienced = [players_without_experience[id] for id in warriors_inexperienced_players_ids]
     warriors_players = warriors_players_experienced
     warriors_players.extend(warriors_players_inexperienced)
-    #Note to Treehouse grader: This thread on the Treehouse forums helped me conceptualize how I to create this function:
+    #Note to Treehouse grader: This thread on the Treehouse forums helped me conceptualize how to create this function:
     #https://teamtreehouse.com/community/appending-random-items-from-one-list-to-another-while-excluding-items-that-were-already-appended-to-a-previous-list
 
 def display_welcome_message_to_console():
