@@ -1,4 +1,4 @@
 import bball_stats_tool
 
-
-bball_stats_tool.main()
+if __name__ == "__main__":
+    bball_stats_tool.main()

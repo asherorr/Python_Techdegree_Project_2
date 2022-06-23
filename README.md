@@ -133,13 +133,13 @@ The file app.py contains this code:
 ~~~
 import bball_stats_tool
 
-
-bball_stats_tool.main()
+if __name__ == "__main__":
+    bball_stats_tool.main()
 ~~~
 
 The main() function in bball_stats_tool contains the clean_data, balance_teams, display_welcome_message_to_console, and display_a_teams_stats functions. 
 
-Thus, all of bball_stats_tool will execute when the script app.py is run.
+Thus, all of bball_stats_tool executes when app.py is run.
 
 
 SECTION 2: TECHNOLOGIES

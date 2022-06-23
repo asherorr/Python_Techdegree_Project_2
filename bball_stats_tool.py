@@ -5,8 +5,6 @@ import sys
 
 cleaned_player_list = []
 
-players_guardians_names = []
-
 panthers_players = []
 
 bandits_players = []
@@ -20,7 +18,7 @@ def clean_data():
     for player in constants.PLAYERS:
         fixed = {}
         fixed["name"] = player["name"]
-        fixed["guardians"] = player["guardians"].split()
+        fixed["guardians"] = player["guardians"].split(" and ")
         fixed["experience"] = player["experience"]
         fixed["height"] = player["height"]
         fixed["height"] = int(player["height"][0:2])
@@ -29,10 +27,6 @@ def clean_data():
         else:
             fixed["experience"] = False
         cleaned_player_list.append(fixed)
-    players_guardians_names = []
-
-    for player in cleaned_player_list:
-        players_guardians_names.append(player["guardians"])
 
 
 def balance_teams():
@@ -72,6 +66,7 @@ def balance_teams():
     warriors_players.extend(warriors_players_inexperienced)
     #Note to Treehouse grader: This thread on the Treehouse forums helped me conceptualize how to create this function:
     #https://teamtreehouse.com/community/appending-random-items-from-one-list-to-another-while-excluding-items-that-were-already-appended-to-a-previous-list
+
 
 def display_welcome_message_to_console():
     print("\nBASKETBALL TEAM STATS TOOL")
@@ -150,7 +145,7 @@ def display_a_teams_stats():
                 players_guardians = []
                 for player in original_list:
                     players_guardians.append(player["guardians"])
-                players_guardians_list = [" ".join(entry) for entry in players_guardians]
+                players_guardians_list = [", ".join(entry) for entry in players_guardians]
                 print(*players_guardians_list, sep = ", ")
             display_a_specific_teams_stats()
             while True:
@@ -175,13 +170,11 @@ def display_a_teams_stats():
                     #https://teamtreehouse.com/community/in-a-print-statement-with-a-sep-parameter-the-values-are-not-being-separated-why-is-this-happening
             
 
+
 def main():
     clean_data()
     balance_teams()
     display_welcome_message_to_console()
     display_a_teams_stats()
 
-
-if __name__ == "__main__":
-    main()
 
