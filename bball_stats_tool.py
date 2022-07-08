@@ -11,7 +11,8 @@ bandits_players = []
 
 warriors_players = []
 
-num_players_team_balanced = int((len(constants.PLAYERS) / len(constants.TEAMS))/2)
+num_players_team_balanced = int(
+    (len(constants.PLAYERS) / len(constants.TEAMS))/2)
 
 
 def clean_data():
@@ -39,33 +40,23 @@ def balance_teams():
     for player in cleaned_player_list:
         if player["experience"] == False:
             players_without_experience.append(player)
-    available_experienced_players = range(len(players_with_experience))
-    available_inexperienced_players = range(len(players_without_experience))
-    panthers_experienced_players_ids = random.sample(available_experienced_players, num_players_team_balanced)
-    panthers_inexperienced_players_ids = random.sample(available_inexperienced_players, num_players_team_balanced)
-    available_experienced_players = [id for id in available_experienced_players if id not in panthers_experienced_players_ids]
-    available_inexperienced_players = [id for id in available_inexperienced_players if id not in panthers_inexperienced_players_ids]
-    bandits_experienced_players_ids = random.sample(available_experienced_players, num_players_team_balanced) 
-    bandits_inexperienced_players_ids = random.sample(available_inexperienced_players, num_players_team_balanced)
-    available_experienced_players = [id for id in available_experienced_players if id not in bandits_experienced_players_ids]
-    available_inexperienced_players = [id for id in available_inexperienced_players if id not in bandits_inexperienced_players_ids]
-    warriors_experienced_players_ids = available_experienced_players
-    warriors_inexperienced_players_ids = available_inexperienced_players
     global panthers_players, warriors_players, bandits_players
-    panthers_players_experienced = [players_with_experience[id] for id in panthers_experienced_players_ids]
-    panthers_players_inexperienced = [players_without_experience[id] for id in panthers_inexperienced_players_ids]
-    panthers_players = panthers_players_experienced
-    panthers_players.extend(panthers_players_inexperienced)
-    bandits_players_experienced = [players_with_experience[id] for id in bandits_experienced_players_ids]
-    bandits_players_inexperienced = [players_without_experience[id] for id in bandits_inexperienced_players_ids]
-    bandits_players = bandits_players_experienced
-    bandits_players.extend(bandits_players_inexperienced)
-    warriors_players_experienced = [players_with_experience[id] for id in warriors_experienced_players_ids]
-    warriors_players_inexperienced = [players_without_experience[id] for id in warriors_inexperienced_players_ids]
-    warriors_players = warriors_players_experienced
-    warriors_players.extend(warriors_players_inexperienced)
-    #Note to Treehouse grader: This thread on the Treehouse forums helped me conceptualize how to create this function:
-    #https://teamtreehouse.com/community/appending-random-items-from-one-list-to-another-while-excluding-items-that-were-already-appended-to-a-previous-list
+    teams = constants.TEAMS
+    for team in teams:
+        if team == "Panthers":
+            list_players = panthers_players
+        if team == "Bandits":
+            list_players = bandits_players
+        if team == "Warriors":
+            list_players = warriors_players
+        random.shuffle(players_with_experience)
+        random.shuffle(players_without_experience)
+        for player in players_with_experience[0:int(num_players_team_balanced)]:
+            list_players.append(player)
+            players_with_experience.pop(0)
+        for player in players_without_experience[0:int(num_players_team_balanced)]:
+            list_players.append(player)
+            players_without_experience.pop(0)
 
 
 def display_welcome_message_to_console():
@@ -78,8 +69,9 @@ def display_welcome_message_to_console():
     while True:
         try:
             select_option = (input("\nEnter an option: "))
-            if not any(entry in select_option.lower() for entry in("a", "b")):
-                raise ValueError("Please enter only the letter A, or the letter B.")
+            if not any(entry in select_option.lower() for entry in ("a", "b")):
+                raise ValueError(
+                    "Please enter only the letter A, or the letter B.")
             if len(select_option) > 1:
                 raise ValueError("Please enter only a single letter: A or B.")
         except ValueError as err:
@@ -99,11 +91,13 @@ def display_a_teams_stats():
         print("B) Bandits")
         print("C) Warriors")
         try:
-            select_option = (input("\nEnter a letter (A for Panthers, B for Bandits, or C for Warriors) "))
+            select_option = (
+                input("\nEnter a letter (A for Panthers, B for Bandits, or C for Warriors) "))
             if not any(entry in select_option.lower() for entry in ("a", "b", "c")):
                 raise ValueError("Please enter only the letter A, B, or C.")
             if len(select_option) > 1:
-                raise ValueError("Please enter only a single letter: A, B, or C.")
+                raise ValueError(
+                    "Please enter only a single letter: A, B, or C.")
         except ValueError as err:
             print("Oh no! We ran into an issue. {}".format(err))
         else:
@@ -125,28 +119,33 @@ def display_a_teams_stats():
                 for player in original_list:
                     if player["experience"] == True:
                         list_players_with_experience.append(player)
-                print("Total experienced: {}".format(len(list_players_with_experience)))
+                print("Total experienced: {}".format(
+                    len(list_players_with_experience)))
                 list_players_without_experience = []
                 for player in original_list:
                     if player["experience"] == False:
                         list_players_without_experience.append(player)
-                print("Total experienced: {}".format(len(list_players_without_experience)))
+                print("Total inexperienced: {}".format(
+                    len(list_players_without_experience)))
                 list_of_players_heights = []
                 for player in original_list:
                     list_of_players_heights.append(player["height"])
-                average_player_height = sum(list_of_players_heights)/len(list_of_players_heights)
-                print("Average height: {} inches".format(round(average_player_height, 1)))
+                average_player_height = sum(
+                    list_of_players_heights)/len(list_of_players_heights)
+                print("Average height: {} inches".format(
+                    round(average_player_height, 1)))
                 print("\nPlayers on team: ")
                 players_names = []
                 for player in original_list:
                     players_names.append(player["name"])
-                print(*players_names, sep= ", ")
+                print(*players_names, sep=", ")
                 print("\nGuardians:")
                 players_guardians = []
                 for player in original_list:
                     players_guardians.append(player["guardians"])
-                players_guardians_list = [", ".join(entry) for entry in players_guardians]
-                print(*players_guardians_list, sep = ", ")
+                players_guardians_list = [
+                    ", ".join(entry) for entry in players_guardians]
+                print(*players_guardians_list, sep=", ")
             display_a_specific_teams_stats()
             while True:
                 try:
@@ -168,7 +167,6 @@ def display_a_teams_stats():
                         sys.exit()
                     #Note to Treehouse grader: This thread on the Treehouse forums helped me conceptualize a solution for printing the guardians list:
                     #https://teamtreehouse.com/community/in-a-print-statement-with-a-sep-parameter-the-values-are-not-being-separated-why-is-this-happening
-            
 
 
 def main():
@@ -176,5 +174,3 @@ def main():
     balance_teams()
     display_welcome_message_to_console()
     display_a_teams_stats()
-
-
