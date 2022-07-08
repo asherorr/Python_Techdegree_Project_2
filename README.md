@@ -43,41 +43,15 @@ The balance_teams function creates 2 lists: players with experience, and players
 
 The function loops through each player in cleaned_player_list. The players with experience are added to the players_with_experience list, whereas the players without experience are added to the players_without_experience list.
 
-Then 2 variables appear:
+In the constants.py file, there are 3 teams: Panthers, Bandits, and Warriors.
 
- 1. available_experienced_players
- - This is assigned a range of the length [players_with_experience]
- 2. available_inexperienced_players
- - This is assigned a range of the length [players_without_experience]
+I looped through each team. During each loop, a list of players for the team is created. The first 3 players in the list players_with_experience are appended to that list.
 
-In the constants.py file, there were 3 teams: Panthers, Bandits, and Warriors. To assign an equal number of experienced and inexperienced players to each team, I created 2 lists:
+Each appended player is immediately popped from the players_with_experience list. This ensures that players are removed from the pool when they're assigned to a team.
 
- List 1: {team_name}_experienced_players_ids
- List 2: {team_name}_inexperienced_players_ids
- 
- For my first team, the Panthers, I took the variable panthers_experienced_players_ids and assigned it a random sample of index values from available_experienced_players, with the k value "num_players_team_balanced."
+I repeated the process using the players_without_experience list. This results in 6 players being added to each team: 3 with experience and 3 without experience.
 
-I then took the variable panthers_inexperienced_players_ids and assigned it a random sample of index values from available_inexperienced_players, with the k value num_players_team_balanced.
-
-num_players_team_balanced is the length of "players" in constants.py, divided by the length of "teams" in constants.py. Then that number is divided by 2. 
-
-In other words, it's the total number of players divided by the total number of teams. This returns "6", since there are 18 players and 3 numbers of team. 6 is then divided by 2, since each team needs an equal number of experienced (3) and inexperienced (3) players. 
-
-Then I used list comprehension to update the range of values in available_experienced_players and available_inexperienced players:
-
-available_experienced_players = [id for id in available_experienced_players if id not in panthers_experienced_players_ids]
-
-available_inexperienced_players = [id for id in available_inexperienced_players if id not in panthers_inexperienced_players_ids]
-
-I repeated the process for the Bandits and Warriors teams.
-
-For my first team (Panthers), I made 2 lists: panthers_players_experienced, and panthers_players_inexperienced. I used list comprehension to populate these lists:
-
-panthers_players_experienced = [players_with_experience[id] for id in panthers_experienced_players_ids]
-
-panthers_players_inexperienced = [players_without_experience[id] for id in panthers_inexperienced_players_ids]
-
-Then I added the lists "panthers_players_experienced" and "panthers_players_inexperienced" to a list called panthers_players. I repeated the process with the Bandits and Warriors teams.
+I also shuffled the players_with_experience and players_without_experience lists. Each time the script is run, the Panthers, Bandits, and Warriors teams will have a different set of players.
 
 -----------------------------------------------------------------------------
 
